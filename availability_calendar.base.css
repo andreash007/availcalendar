@@ -305,3 +305,23 @@
 .form-item.form-type-radios.form-item-field-availability-calendar-und-0-availability-states {
 padding-bottom:10px;
 }
+
+/* Responsive */
+@media screen and (max-width:630px) and (min-width:431px) {
+  .cal-month {
+    min-height: 230px;
+  }
+  #cal-265-2015-11,
+  #cal-265-2016-1,
+  #cal-265-2016-5,
+  #cal-265-2016-9,
+  #cal-265-2017-1 {
+    display: table;float: left;
+  }
+}
+
+@media screen and (max-width: 430px) {
+	.cal-viewport-inner .cal-month {
+    float: none;
+  }
+}
