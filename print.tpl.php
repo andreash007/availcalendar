@@ -25,26 +25,87 @@
   </head>
 
   <?php 
-  if(isset($_GET['mode'])) {
-$mode = ($_GET['mode']);
-};
-?> 
+	if(isset($_GET['mode'])) {
+		$mode = ($_GET['mode']);
+	};
+  ?> 
   
-  <body class="<?php 
-  if(isset($_GET['mode'])) {
-  print "mode-$mode ";
-};
-?>print-page">
+  <body class="<?php if(isset($_GET['mode'])) {print "mode-$mode ";};?>print-page">
 
     <div class="print-content">
 		<?php print $print['content']; ?>
-
-						
+					
 	</div>
 
     <div class="print-source_url"><?php print $print['source_url']; ?></div>
     <div class="print-links"><?php print $print['pfp_links']; ?></div>
     <?php print $print['footer_scripts']; ?>
-	
+		
+	<?php 
+	if(!isset($_GET['mode'])) {
+	?>
+		<script>
+		jQuery(document).ready(function($) {
+			function CalendarVievport() {
+				var CountClick = 0;
+				var MaxCount = 3;
+				var Scroll = 2;
+				var MonthHeight = 219;
+				var Top = 0;
+				var width = $(window).width();
+				ScrollHeight = MonthHeight * Scroll;
+				
+				// Set MaxCount
+				if (width < 380) {
+					MaxCount = 11;
+					Scroll = 2;
+					$(".cal-viewport").css("width", "210px");
+				}
+				else if (width < 480) {
+					MaxCount = 5;
+					Scroll = 2;
+					$(".cal-viewport").css("width", "418px");
+				}
+				else if (width > 680) {
+					MaxCount = 3;
+					Scroll = 2;
+					$(".cal-viewport").css("width", "626px");
+				}
+				// Max Forward Click
+				$('.cal-buttons a.cal-forward').click(function () {
+					CountClick += 1;
+					Top = Top + ScrollHeight;
+					$(".cal-viewport-inner").animate({top: "-" + Top}, 500);
+			
+					if (CountClick < MaxCount) {
+						$(this).removeAttr( "disabled" );
+					}
+					else {
+						$(this).attr( "disabled", "disabled" );
+					}
+				});
+				
+				// Max Backward Click
+				$('.cal-buttons a.cal-backward').click(function () {
+					if (CountClick > 0) {
+						CountClick -= 1;
+						Top = Top - ScrollHeight;
+						$(".cal-viewport-inner").animate({top: "-" + Top}, 500);
+						
+						$(this).removeAttr( "disabled" );
+						
+						if (CountClick == 0) {
+							$(this).attr( "disabled", "disabled" );			
+						}
+					}
+				});
+			}
+			CalendarVievport();
+			$(window).resize( CalendarVievport );
+		});
+		</script>
+	<?php 
+	}
+	?>
   </body>
 </html>
